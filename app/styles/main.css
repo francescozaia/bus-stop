@@ -52,6 +52,19 @@
 .marketing p + h4 {
   margin-top: 28px;
 }
+.search-text-box {
+    text-align: center;
+    height: 60px;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    border: 0px;
+    border-bottom: 1px solid black;
+    background-color: #f2f2f2;
+}
+.google-map-container {
+    height: 400px;
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
@@ -70,17 +83,8 @@
   .jumbotron {
     border-bottom: 0;
   }
-}
-.google-map-container {
-    height: 400px;
-}
-.search-text-box {
-    text-align: center;
+  .search-text-box {
     height: 120px;
-    width: 100%;
-    text-align: center;
     font-size: 50px;
-    border: 0px;
-    border-bottom: 1px solid black;
-    background-color: #f2f2f2;
+  }
 }

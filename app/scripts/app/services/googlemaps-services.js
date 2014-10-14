@@ -59,8 +59,7 @@ angular.module("BusApp")
           hoverContent: "<div>" +
             "<strong>" + marker.name + "</strong>" +
             "<br>(" + marker.locality + ")" +
-            "<br>" + marker.indicator,
-          content: "retrieve bus"
+            "<br>" + marker.indicator
         };
 
         _createMarker(markerOptions, marker);
@@ -89,8 +88,6 @@ angular.module("BusApp")
 
       //wire up marker click handler to open info window
       google.maps.event.addListener(marker, "click", function () {
-        map.infoWindow.setContent(markerOptions.content);
-        map.infoWindow.open(map, marker);
         map.infoTitleWindow.close();
         angular.element(document.getElementById('HomepageController')).scope().open(markerInfo);
       });
