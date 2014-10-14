@@ -20,12 +20,23 @@ angular.module("BusApp")
       });
     };
 
+    var getBusDepartures = function (busID) {
+      var transportAPIUrlLive = "https://cors-anywhere.herokuapp.com/transportapi.com/v3/uk/bus/stop/" + busID + "/live.json"
+
+      return $http.get(transportAPIUrlLive,{
+        params: {
+          "api_key": transportAPIKey,
+          "app_id": transportAPIAppId
+        }
+      });
+    };
+
     return {
       getBusStops: function(latLng) {
         return getBusStops(latLng);
       },
-      getMarkers: function(response) {
-
+      getBusDepartures: function(busID) {
+        return getBusDepartures(busID);
       }
     };
 

@@ -1,5 +1,29 @@
-<div class="row">
+<div class="row" id="HomepageController" ng-controller="HomepageController">
   <input id="pac-input" class="search-text-box" type="text" placeholder="Enter a location" ng-autocomplete ng-model="autocomplete" options="options" details="details"/>
 
   <div google-maps id="london-map" lat="51.513101" long="0.117712" class="google-map-container"></div>
 </div>
+
+
+
+  <button class="btn btn-default" ng-click="open()">Open me!</button>
+  <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+
+<script type="text/ng-template" id="modalContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Next departures</h3>
+  </div>
+  <div class="modal-body">
+    <div ng-repeat="departure in departures">
+      <h3>{{departure.number}}</h3>
+      <ul>
+        <li ng-repeat="detail in departure.details">
+          To {{ detail.direction }}, at  {{ detail.expected_departure_time }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  </div>-->
+</script>

@@ -22,7 +22,7 @@ angular.module("BusApp")
 
     return deferred.promise;
   }])
-  .factory("googleMapsDrawService", ["$window", "$q", function ( $window, $q ) {
+  .factory("googleMapsDrawService", function ( ) {
 
     var getMarkers = function (map, busStops) {
 
@@ -59,16 +59,21 @@ angular.module("BusApp")
           hoverContent: "<div>" +
             "<strong>" + marker.name + "</strong>" +
             "<br>(" + marker.locality + ")" +
-            "<br>" + marker.indicator
+            "<br>" + marker.indicator,
+          content: "retrieve bus"
         };
 
-        _createMarker(markerOptions);
+        _createMarker(markerOptions, marker);
       }
 
     };
 
+    var getDirections = function() {
+
+    };
+
     //create a single marker to map
-    function _createMarker(markerOptions) {
+    function _createMarker(markerOptions, markerInfo) {
       var map = markerOptions.map;
       var marker = new google.maps.Marker(markerOptions);
 
@@ -87,6 +92,7 @@ angular.module("BusApp")
         map.infoWindow.setContent(markerOptions.content);
         map.infoWindow.open(map, marker);
         map.infoTitleWindow.close();
+        angular.element(document.getElementById('HomepageController')).scope().open(markerInfo);
       });
       marker.setVisible(true);
 
@@ -98,4 +104,4 @@ angular.module("BusApp")
         return getMarkers(map, busStops);
       }
     };
-  }]);
+  });
