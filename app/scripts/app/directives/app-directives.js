@@ -6,7 +6,8 @@ angular.module("BusApp")
     "$rootScope",
     "googleMapsAsyncLoadService",
     "transportService",
-    function( $rootScope, googleMapsAsyncLoadService, transportService ) {
+    "googleMapsDrawService",
+    function( $rootScope, googleMapsAsyncLoadService, transportService, googleMapsDrawService ) {
       return {
         restrict: "A",
         scope: {
@@ -33,9 +34,26 @@ angular.module("BusApp")
                 anchorPoint: new google.maps.Point(0, -29)
               });
 
+              google.maps.event.addListener($scope.map, "idle", function() {
+                var obj = {
+                  "minlat": $scope.map.getBounds().getNorthEast().lat(),
+                  "maxlon": $scope.map.getBounds().getNorthEast().lng(),
+                  "maxlat": $scope.map.getBounds().getSouthWest().lat(),
+                  "minlon": $scope.map.getBounds().getSouthWest().lng()
+                };
+                transportService.getBusStops(obj).then(function (response) {
+                  // TODO
+                  var busStops = response.data.stops;
+                  googleMapsDrawService.getMarkers($scope.map, busStops);
+                },function(errorResponse) {
+                  // TODO
+                  console.log(errorResponse);
+                });
+              });
+
+
               google.maps.event.addListener(autocomplete, "place_changed", function() {
-                infowindow.close();
-                marker.setVisible(false);
+
                 var place = autocomplete.getPlace();
                 if (!place.geometry) {
                   return;
@@ -48,15 +66,7 @@ angular.module("BusApp")
                   $scope.map.setCenter(place.geometry.location);
                   $scope.map.setZoom(17);  // Why 17? Because it looks good.
                 }
-                marker.setIcon(/** @type {google.maps.Icon} */({
-                  url: place.icon,
-                  size: new google.maps.Size(71, 71),
-                  origin: new google.maps.Point(0, 0),
-                  anchor: new google.maps.Point(17, 34),
-                  scaledSize: new google.maps.Size(35, 35)
-                }));
-                marker.setPosition(place.geometry.location);
-                marker.setVisible(true);
+
 
                 var address = "";
                 if (place.address_components) {
@@ -67,16 +77,8 @@ angular.module("BusApp")
                   ].join(" ");
                 }
 
-                infowindow.setContent("<div><strong>" + place.name + "</strong><br>" + address);
-                infowindow.open($scope.map, marker);
 
-                transportService.then(function (response) {
-                  // TODO
-                  // console.log(response);
-                },function(errorResponse) {
-                  // TODO
-                  console.log(errorResponse);
-                });
+
               });
 
 
