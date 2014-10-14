@@ -31,3 +31,7 @@ angular
         redirectTo: "/"
       });
   }]);
+  /*.config(["$httpProvider", function($httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    $httpProvider.defaults.withCredentials = true;
+  }]);*/
