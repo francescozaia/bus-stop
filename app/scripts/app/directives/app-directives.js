@@ -35,7 +35,20 @@ angular.module("BusApp")
               });
 
               google.maps.event.addListener($scope.map, "idle", function() {
-
+                var obj = {
+                  "minlat": $scope.map.getBounds().getNorthEast().lat(),
+                  "maxlon": $scope.map.getBounds().getNorthEast().lng(),
+                  "maxlat": $scope.map.getBounds().getSouthWest().lat(),
+                  "minlon": $scope.map.getBounds().getSouthWest().lng()
+                };
+                transportService.getBusStops(obj).then(function (response) {
+                  // TODO
+                  var busStops = response.data.stops;
+                  googleMapsDrawService.getMarkers($scope.map, busStops);
+                },function(errorResponse) {
+                  // TODO
+                  console.log(errorResponse);
+                });
               });
 
 
@@ -63,23 +76,6 @@ angular.module("BusApp")
                     (place.address_components[2] && place.address_components[2].short_name || "")
                   ].join(" ");
                 }
-
-                var obj = {
-                  "minlat": $scope.map.getBounds().getNorthEast().lat(),
-                  "maxlon": $scope.map.getBounds().getNorthEast().lng(),
-                  "maxlat": $scope.map.getBounds().getSouthWest().lat(),
-                  "minlon": $scope.map.getBounds().getSouthWest().lng()
-                };
-                transportService.getBusStops(obj).then(function (response) {
-                  // TODO
-                  var busStops = response.data.stops;
-                  googleMapsDrawService.getMarkers($scope.map, busStops);
-                },function(errorResponse) {
-                  // TODO
-                  console.log(errorResponse);
-                });
-
-
 
               });
 
